@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.li.dao.IRoleDao">
+    <resultMap id="roleUserMap" type="role">
+        <id property="roleId" column="id"></id>
+        <result property="roleName" column="role_name"></result>
+        <result property="roleDesc" column="role_desc" ></result>
+        <collection property="users" column="id" ofType="user" select="com.li.dao.IUserDao.findById">
+            <id property="id" column="id"></id>
+            <result column="username" property="username" ></result>
+            <result column="address" property="address"></result>
+            <result column="sex" property="sex" ></result>
+            <result column="birthday" property="birthday"></result>
+        </collection>
+    </resultMap>
+    <!--查询所有账户所对应用户信息-->
+    <select id="findAll" resultMap="roleUserMap">
+        select * from role
+    </select>
+<select id="findByRid" resultType="role" parameterType="Integer">
+    select * from role where id in (select rid from user_role where uid=#{id})
+</select>
+</mapper>

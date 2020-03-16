@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--Mybatis的主配置文件-->
+<configuration>
+    <!--   数据库的连接信息 -->
+    <properties resource="jdbcConfig.properties"></properties>
+<!--    延迟加载-->
+    <settings>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+    <!-- 使用typeAliases配置别名，它只能配置domain中类的别名-->
+    <typeAliases>
+        <!--用于指定别名配置的包，当指定后，该包下的类会注册别名，并且类名就是别名，不区分大小写-->
+        <package name="com.li.domain"/>
+    </typeAliases>
+    <!--    配置环境-->
+    <environments default="mysql">
+        <!--        配置mysql环境-->
+        <environment id="mysql">
+            <!--           配置与事务相关的-->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--            配置连接池-->
+            <dataSource type="POOLED">
+                <!--                配置4个数据库的连接信息-->
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--    配置映射文件-->
+    <mappers>
+        <!--       package标签是用于指定dao接口所在的包,当指定之后就保护需要写Mapper或resource或者class-->
+        <package name="com.li.dao"/>
+    </mappers>
+</configuration>
